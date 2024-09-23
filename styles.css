@@ -56,15 +56,23 @@ body {
 }
 
 /* banner */
-
 .banner {
     background-image: url("images/small-movie8.jpg");
     background-size: cover;
     background-position: center;
     height: 448px;
     color: white;
+    transition: opacity 1s ease-in-out; /* Adding transition for opacity */
+    opacity: 1; /* Initial opacity set to fully visible */
 }
 
+.banner.fade-out {
+    opacity: 0; /* Fade out effect */
+}
+
+.banner.fade-in {
+    opacity: 1; /* Fade in effect */
+}
 
 .banner_contents {
     margin-left: 30px;

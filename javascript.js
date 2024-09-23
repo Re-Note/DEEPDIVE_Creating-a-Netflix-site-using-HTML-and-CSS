@@ -87,20 +87,56 @@ const movies = [
     }
 ];
 
-// Function to change banner
+let currentIndex = 0; // 현재 배너 인덱스를 전역 변수로 선언
+
+// 배너 변경 함수 (페이드 효과 적용)
 function changeBanner(index) {
+    const bannerElement = document.querySelector('.banner');
     const { title, description, image } = movies[index];
-    document.querySelector('.banner_title').textContent = title;
-    document.querySelector('.banner_description').textContent = description;
-    document.querySelector('.banner').style.backgroundImage = `url(${image})`;
+    
+    // 1단계: 페이드 아웃 (배너를 서서히 사라지게 함)
+    bannerElement.classList.add('fade-out');
+    bannerElement.classList.remove('fade-in'); // 페이드 아웃 시작 전에 fade-in 클래스 제거
+
+    // 2단계: 페이드 아웃이 완료되면 배너 내용 변경 후 페이드 인
+    setTimeout(() => {
+        document.querySelector('.banner_title').textContent = title;
+        document.querySelector('.banner_description').textContent = description;
+        bannerElement.style.backgroundImage = `url(${image})`;
+
+        // 3단계: 페이드 인 (새로운 배너가 서서히 나타남)
+        bannerElement.classList.remove('fade-out');
+        bannerElement.classList.add('fade-in');
+        
+        // 페이드 인이 완료되면 fade-in 클래스를 제거하여 다음 전환이 원활하게 작동하도록 함
+        setTimeout(() => {
+            bannerElement.classList.remove('fade-in');
+        }, 1000); // CSS의 페이드 인 전환 시간과 맞추기 위해 1초 설정
+    }, 1000); // 1초 지연 후 페이드 아웃이 완료되도록 설정 (CSS 전환 시간과 일치)
 }
 
-// Initialize click event listeners
+// 클릭 이벤트 리스너 초기화
 function init() {
     const posterImages = document.querySelectorAll('.row_poster');
     posterImages.forEach((poster, index) => {
-        poster.addEventListener('click', () => changeBanner(index + 1)); // +1 to skip the first movie
+        // 포스터 이미지를 클릭하면 해당 인덱스의 영화로 배너 전환
+        poster.addEventListener('click', () => {
+            currentIndex = index + 1; // 클릭된 포스터 인덱스로 currentIndex 업데이트 (첫 번째 영화 건너뜀)
+            changeBanner(currentIndex); // 클릭된 포스터에 맞는 배너로 즉시 전환
+        });
     });
 }
 
-document.addEventListener('DOMContentLoaded', init);
+// 5초마다 자동으로 배너 전환
+function autoSlideBanner() {
+    currentIndex = (currentIndex + 1) % movies.length; // 마지막 영화 이후 다시 첫 번째 영화로 돌아감
+    changeBanner(currentIndex);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    init();
+    // 5초마다 자동 슬라이드 설정 (5000 밀리초 = 5초)
+    setInterval(autoSlideBanner, 5000);
+});
+
+
