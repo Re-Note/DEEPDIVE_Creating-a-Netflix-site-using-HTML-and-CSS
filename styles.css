@@ -1,15 +1,15 @@
+/* Reset */
 * {
     margin: 0;
     padding: 0;
 }
 
+/* Global Styles */
 body {
     background-color: #111;
 }
 
-
-/* header */
-
+/* Header */
 .navbar {
     background-color: #111;
     position: fixed;
@@ -43,7 +43,6 @@ body {
     color: gray;
 }
 
-
 .logo {
     height: 45px;
     width: 90px;
@@ -55,23 +54,23 @@ body {
     width: 100%;
 }
 
-/* banner */
+/* Banner */
 .banner {
     background-image: url("images/small-movie8.jpg");
     background-size: cover;
     background-position: center;
     height: 448px;
     color: white;
-    transition: opacity 1s ease-in-out; /* Adding transition for opacity */
-    opacity: 1; /* Initial opacity set to fully visible */
+    opacity: 1;
+    transition: opacity 1s ease-in-out;
 }
 
 .banner.fade-out {
-    opacity: 0; /* Fade out effect */
+    opacity: 0;
 }
 
 .banner.fade-in {
-    opacity: 1; /* Fade in effect */
+    opacity: 1;
 }
 
 .banner_contents {
@@ -96,11 +95,12 @@ body {
     height: 30px;
     border-radius: 2px;
     border: 1px solid transparent;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
 .banner_btn button:hover {
     background-color: rgb(171, 163, 163);
-    cursor: pointer;
 }
 
 .banner_description {
@@ -109,8 +109,7 @@ body {
     font-size: 1rem;
 }
 
-
-/* row */
+/* Row */
 .row {
     color: white;
 }
@@ -122,11 +121,9 @@ body {
 
 .row_posters {
     display: flex;
-    overflow-y: hidden;
     overflow-x: scroll;
     padding: 20px;
 }
-
 
 .row_poster {
     width: 100%;
@@ -148,7 +145,7 @@ body {
     max-height: 250px;
 }
 
-/* 모달 창 스타일 */
+/* Modal */
 .modal {
     display: none;
     position: fixed;
@@ -177,7 +174,6 @@ body {
 .modal-banner {
     width: 100%;
     height: 300px;
-    overflow: hidden;
 }
 
 .modal-banner-img {
@@ -195,19 +191,19 @@ body {
 #modal-title {
     font-size: 24px;
     font-weight: bold;
-    margin-bottom: 15px; /* 제목과 다음 요소 사이에 간격 추가 */
+    margin-bottom: 15px;
 }
 
 #modal-description {
     font-size: 16px;
-    margin-bottom: 20px; /* 설명과 버튼 사이에 간격 추가 */
+    margin-bottom: 20px;
 }
 
 .modal-btns {
     display: flex;
     justify-content: center;
-    gap: 15px; /* 버튼들 사이 간격 */
-    margin-top: 20px; /* 버튼과 설명 사이 간격 */
+    gap: 15px;
+    margin-top: 20px;
 }
 
 .modal-btns button {
@@ -217,12 +213,14 @@ body {
     color: white;
     cursor: pointer;
     border-radius: 5px;
+    transition: background-color 0.3s;
 }
 
 .modal-btns button:hover {
     background-color: #b00610;
 }
 
+/* Ensure the modal close button is always visible */
 .close {
     position: absolute;
     top: 10px;
@@ -230,27 +228,20 @@ body {
     color: white;
     font-size: 30px;
     cursor: pointer;
-    z-index: 10;
+    z-index: 100; /* High z-index to stay on top */
 }
 
 .close:hover {
     color: red;
 }
 
-
-/* 모달 창 스타일 */
+/* Modal Image Gradient */
 .modal img {
-    width: 100%; /* 너비를 100%로 고정 */
-    height: 300px; /* 고정된 높이 설정 */
-    object-fit: cover; /* 이미지가 고정된 크기에 맞게 자르기 */
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
     position: relative;
-    z-index: 1; /* 이미지가 그라디언트 위에 위치하게 함 */
-}
-
-/* 이미지 하단 흐림 효과 */
-.modal-content {
-    position: relative;
-    overflow: hidden;
+    z-index: 1;
 }
 
 .modal-content::after {
@@ -259,8 +250,7 @@ body {
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 50%; /* 흐림 효과의 높이 */
-    background: linear-gradient(transparent, rgba(0, 0, 0, 0.8)); /* 그라디언트로 하단 흐림 처리 */
-    z-index: 2; /* 이미지 위에 그라디언트 효과 추가 */
+    height: 50%;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+    z-index: 2;
 }
-

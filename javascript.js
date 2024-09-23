@@ -83,8 +83,9 @@ const movies = [
     
 ];
 
-// 현재 배너 상태를 위한 인덱스
+// 현재 배너 상태를 위한 인덱스 및 자동 전환 타이머
 let currentIndex = 0;
+let autoSlideTimer = null;
 
 // 배너와 모달의 공통 업데이트 함수
 function updateBannerContent(index) {
@@ -92,7 +93,7 @@ function updateBannerContent(index) {
     document.querySelector('.banner_title').textContent = title;
     document.querySelector('.banner_description').textContent = description;
     document.querySelector('.banner').style.backgroundImage = `url(${image})`;
-    
+
     // 버튼 클릭 시 동작할 이벤트 핸들러 설정
     setButtonActions(image, title, description);
 }
@@ -107,10 +108,11 @@ function setButtonActions(image, title, description) {
     // 상세 정보 버튼 클릭 시 모달 창 열기
     document.querySelector('.info-btn').onclick = () => {
         openModal(image, title, description);
+        stopAutoSlide(); // 모달이 열리면 자동 전환 멈춤
     };
 }
 
-// 모달 창 열기 함수
+// 모달 창 열기 함수 (모달에 페이드 애니메이션 없음)
 function openModal(image, title, description) {
     const modal = document.getElementById('modal');
     document.getElementById('modal-banner-img').src = image;
@@ -123,6 +125,7 @@ function openModal(image, title, description) {
 // 모달 닫기 기능
 function closeModal() {
     document.getElementById('modal').style.display = "none";
+    startAutoSlide(); // 모달이 닫히면 자동 전환 다시 시작
 }
 
 // 클릭 이벤트 리스너 초기화
@@ -135,15 +138,15 @@ function initPosterListeners() {
     });
 }
 
-// 배너 변경 함수 (애니메이션 추가)
+// 배너 변경 함수 (페이드 인/아웃 애니메이션 추가)
 function changeBanner(index) {
     const bannerElement = document.querySelector('.banner');
     
-    // 먼저 페이드 아웃 애니메이션 적용
+    // 배너에 페이드 아웃 애니메이션 적용
     bannerElement.classList.add('fade-out');
-    bannerElement.classList.remove('fade-in'); // 이전 fade-in 클래스 제거
+    bannerElement.classList.remove('fade-in');
 
-    // 1초 후 페이드 아웃이 완료된 후 배너 내용 변경
+    // 1초 후 페이드 아웃이 완료되면 배너 내용 변경
     setTimeout(() => {
         currentIndex = index % movies.length; // 인덱스 순환
         updateBannerContent(currentIndex); // 영화 정보 업데이트
@@ -152,11 +155,11 @@ function changeBanner(index) {
         bannerElement.classList.remove('fade-out');
         bannerElement.classList.add('fade-in');
 
-        // 1초 후 애니메이션 클래스 제거 (다음 애니메이션을 위해)
+        // 1초 후 애니메이션 완료 시 클래스 제거
         setTimeout(() => {
             bannerElement.classList.remove('fade-in');
-        }, 1000);
-    }, 1000); // 페이드 아웃에 맞춰 1초 지연
+        }, 1000); // CSS 애니메이션과 일치
+    }, 1000); // 페이드 아웃 시간과 일치
 }
 
 // 5초마다 자동 배너 전환
@@ -165,19 +168,34 @@ function autoSlideBanner() {
     changeBanner(currentIndex);
 }
 
+// 자동 전환 멈추는 함수
+function stopAutoSlide() {
+    if (autoSlideTimer) {
+        clearInterval(autoSlideTimer);
+        autoSlideTimer = null;
+    }
+}
+
+// 자동 전환 시작하는 함수
+function startAutoSlide() {
+    if (!autoSlideTimer) {
+        autoSlideTimer = setInterval(autoSlideBanner, 5000); // 5초마다 자동 배너 전환
+    }
+}
+
 // 초기화 함수
 function init() {
     // 초기 배너 설정
     updateBannerContent(0);
-    
+
     // 포스터 클릭 리스너 설정
     initPosterListeners();
 
     // 모달 닫기 리스너 설정
     document.querySelector('.close').onclick = closeModal;
 
-    // 자동 슬라이드 설정
-    setInterval(autoSlideBanner, 5000); // 5초마다 자동 배너 전환
+    // 자동 전환 시작
+    startAutoSlide();
 }
 
 // DOM이 로드된 후 초기화 실행
