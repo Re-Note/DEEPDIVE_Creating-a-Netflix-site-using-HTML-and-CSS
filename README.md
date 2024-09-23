@@ -10,6 +10,14 @@ Flex Box 또는 Grid CSS 를 이용해서 영화를 나열합니다.
 
 ![넷플릭스 메인 로고](https://github.com/user-attachments/assets/49edf93f-ed77-4ecf-b558-99113ce62f98)
 
+### [구현 결과 사이트 주소]
+
+https://re-note.github.io/DEEPDIVE_Creating-a-Netflix-site-using-HTML-and-CSS/
+
 ---
 
 ### [추가 구현 요구 사항]
+
+- 영화 자료 보완
+- 포스터 클릭시 영화 정보 표현 기능 추가
+- 다음 포스터로 자동 전환 기능 추가
