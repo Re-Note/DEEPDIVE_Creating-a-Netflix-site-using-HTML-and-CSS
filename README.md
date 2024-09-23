@@ -21,3 +21,5 @@ https://re-note.github.io/DEEPDIVE_Creating-a-Netflix-site-using-HTML-and-CSS/
 - 영화 자료 보완
 - 포스터 클릭시 영화 정보 표현 기능 추가
 - 다음 포스터로 자동 전환 기능 추가
+- 재생 버튼 및 상세 정보 버튼 기능 추가
+- 코드 리팩토링
