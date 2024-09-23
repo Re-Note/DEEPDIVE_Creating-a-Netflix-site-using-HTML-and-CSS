@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/c03a0fc7-59b3-4777-832c-da4c7ef4638a)### [DEEPDIVE] 실습 과제 01. HTML, CSS를 이용해서 넷플릭스 사이트 만들기 수행 리포지토리
+### [DEEPDIVE] 실습 과제 01. HTML, CSS를 이용해서 넷플릭스 사이트 만들기 수행 리포지토리
 
 [기본 구현 요구 사항]
 
