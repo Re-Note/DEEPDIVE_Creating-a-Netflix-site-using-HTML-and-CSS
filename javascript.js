@@ -2,8 +2,8 @@
 const movies = [
     {
         title: "종이의 집",
-        description: "역사상 최대 규모의 강도 사건을 수행하기 위해 교수라는 의문의 남자가 강도 8인단을 구출하는데...",
-        image: "images/banner.jpg"
+        description: "스페인에서 강도 행각을 벌이다 파트너 겸 연인이었던 공범자를 잃은 올리베이라. 어떻게 돈은 건졌지만 전국에 자신의 얼굴이 공개되어 현상수배까지 걸린 그녀는 어머니한테 전화를 걸어 같이 도망가자고 권유하고, 긍정적인 대답이 돌아오자 변장을 하고 어머니의 집을 찾으려 한다.",
+        image: "images/small-movie8.jpg"
     },
     {
         title: "루이스 미겔: 더 시리즈",
@@ -80,63 +80,105 @@ const movies = [
         description: "정말이지 착하게 살고 싶었다. 참으려고 했다. 이제 나 건드리면 X된다! 비범한 과거를 숨긴 채 남들과 다를 바 없는 평범한 일상을 사는 한 가정의 가장 ‘허치’ 매일 출근을 하고, 분리수거를 하고 일과 가정 모두 나름 최선을 다하지만 아들한테는 무시당하고 아내와의 관계도 소원하다. 그러던 어느 날, 집안에 강도가 들고 허치는 한 번의 반항도 하지 못하고 당한다. 더 큰 위험으로부터 가족을 지키기 위한 선택이었는데 모두 무능력하다고 ‘허치’를 비난하고, 결국 그동안 참고 억눌렀던 분노가 폭발하고 만다.",
         image: "images/small-movie7.jpg"
     },
-    {
-        title: "종이의 집",
-        description: "스페인에서 강도 행각을 벌이다 파트너 겸 연인이었던 공범자를 잃은 올리베이라. 어떻게 돈은 건졌지만 전국에 자신의 얼굴이 공개되어 현상수배까지 걸린 그녀는 어머니한테 전화를 걸어 같이 도망가자고 권유하고, 긍정적인 대답이 돌아오자 변장을 하고 어머니의 집을 찾으려 한다.",
-        image: "images/small-movie8.jpg"
-    }
+    
 ];
 
-let currentIndex = 0; // 현재 배너 인덱스를 전역 변수로 선언
+// 현재 배너 상태를 위한 인덱스
+let currentIndex = 0;
 
-// 배너 변경 함수 (페이드 효과 적용)
-function changeBanner(index) {
-    const bannerElement = document.querySelector('.banner');
+// 배너와 모달의 공통 업데이트 함수
+function updateBannerContent(index) {
     const { title, description, image } = movies[index];
+    document.querySelector('.banner_title').textContent = title;
+    document.querySelector('.banner_description').textContent = description;
+    document.querySelector('.banner').style.backgroundImage = `url(${image})`;
     
-    // 1단계: 페이드 아웃 (배너를 서서히 사라지게 함)
-    bannerElement.classList.add('fade-out');
-    bannerElement.classList.remove('fade-in'); // 페이드 아웃 시작 전에 fade-in 클래스 제거
+    // 버튼 클릭 시 동작할 이벤트 핸들러 설정
+    setButtonActions(image, title, description);
+}
 
-    // 2단계: 페이드 아웃이 완료되면 배너 내용 변경 후 페이드 인
-    setTimeout(() => {
-        document.querySelector('.banner_title').textContent = title;
-        document.querySelector('.banner_description').textContent = description;
-        bannerElement.style.backgroundImage = `url(${image})`;
+// 버튼 클릭 시 동작 설정 함수
+function setButtonActions(image, title, description) {
+    // 재생 버튼 클릭 시
+    document.querySelector('.play-btn').onclick = () => {
+        window.location.href = image; // 이미지로 이동
+    };
 
-        // 3단계: 페이드 인 (새로운 배너가 서서히 나타남)
-        bannerElement.classList.remove('fade-out');
-        bannerElement.classList.add('fade-in');
-        
-        // 페이드 인이 완료되면 fade-in 클래스를 제거하여 다음 전환이 원활하게 작동하도록 함
-        setTimeout(() => {
-            bannerElement.classList.remove('fade-in');
-        }, 1000); // CSS의 페이드 인 전환 시간과 맞추기 위해 1초 설정
-    }, 1000); // 1초 지연 후 페이드 아웃이 완료되도록 설정 (CSS 전환 시간과 일치)
+    // 상세 정보 버튼 클릭 시 모달 창 열기
+    document.querySelector('.info-btn').onclick = () => {
+        openModal(image, title, description);
+    };
+}
+
+// 모달 창 열기 함수
+function openModal(image, title, description) {
+    const modal = document.getElementById('modal');
+    document.getElementById('modal-banner-img').src = image;
+    document.getElementById('modal-title').textContent = title;
+    document.getElementById('modal-description').textContent = description;
+
+    modal.style.display = "flex"; // 모달 표시
+}
+
+// 모달 닫기 기능
+function closeModal() {
+    document.getElementById('modal').style.display = "none";
 }
 
 // 클릭 이벤트 리스너 초기화
-function init() {
+function initPosterListeners() {
     const posterImages = document.querySelectorAll('.row_poster');
     posterImages.forEach((poster, index) => {
-        // 포스터 이미지를 클릭하면 해당 인덱스의 영화로 배너 전환
         poster.addEventListener('click', () => {
-            currentIndex = index + 1; // 클릭된 포스터 인덱스로 currentIndex 업데이트 (첫 번째 영화 건너뜀)
-            changeBanner(currentIndex); // 클릭된 포스터에 맞는 배너로 즉시 전환
+            changeBanner(index + 1); // 포스터 클릭 시 배너 변경
         });
     });
 }
 
-// 5초마다 자동으로 배너 전환
+// 배너 변경 함수 (애니메이션 추가)
+function changeBanner(index) {
+    const bannerElement = document.querySelector('.banner');
+    
+    // 먼저 페이드 아웃 애니메이션 적용
+    bannerElement.classList.add('fade-out');
+    bannerElement.classList.remove('fade-in'); // 이전 fade-in 클래스 제거
+
+    // 1초 후 페이드 아웃이 완료된 후 배너 내용 변경
+    setTimeout(() => {
+        currentIndex = index % movies.length; // 인덱스 순환
+        updateBannerContent(currentIndex); // 영화 정보 업데이트
+
+        // 페이드 인 애니메이션 적용
+        bannerElement.classList.remove('fade-out');
+        bannerElement.classList.add('fade-in');
+
+        // 1초 후 애니메이션 클래스 제거 (다음 애니메이션을 위해)
+        setTimeout(() => {
+            bannerElement.classList.remove('fade-in');
+        }, 1000);
+    }, 1000); // 페이드 아웃에 맞춰 1초 지연
+}
+
+// 5초마다 자동 배너 전환
 function autoSlideBanner() {
-    currentIndex = (currentIndex + 1) % movies.length; // 마지막 영화 이후 다시 첫 번째 영화로 돌아감
+    currentIndex = (currentIndex + 1) % movies.length;
     changeBanner(currentIndex);
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    init();
-    // 5초마다 자동 슬라이드 설정 (5000 밀리초 = 5초)
-    setInterval(autoSlideBanner, 5000);
-});
+// 초기화 함수
+function init() {
+    // 초기 배너 설정
+    updateBannerContent(0);
+    
+    // 포스터 클릭 리스너 설정
+    initPosterListeners();
 
+    // 모달 닫기 리스너 설정
+    document.querySelector('.close').onclick = closeModal;
 
+    // 자동 슬라이드 설정
+    setInterval(autoSlideBanner, 5000); // 5초마다 자동 배너 전환
+}
+
+// DOM이 로드된 후 초기화 실행
+document.addEventListener('DOMContentLoaded', init);

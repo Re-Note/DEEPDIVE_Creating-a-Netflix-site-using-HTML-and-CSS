@@ -25,17 +25,36 @@
     <main>
         <!-- banner -->
         <div class="banner">
-            <div class="banner_contents">
-                <h1 class="banner_title">종이의 집</h1>
-                <div class="banner_btn">
-                    <button>재생</button>
-                </div>
-                <p class="banner_description">
-                    역사상 최대 규모의 강도 사건을 수행하기 위해
-                    <br />
-                    교수라는 의문의 남자가 강도 8인단을 구출하는데...
-                </p>
+          <div class="banner_contents">
+            <h1 class="banner_title">종이의 집</h1>
+            <div class="banner_btn">
+                <button class="play-btn">재생</button>
+                <button class="info-btn">상세 정보</button>
             </div>
+            <p class="banner_description">
+                역사상 최대 규모의 강도 사건을 수행하기 위해
+                <br />
+                교수라는 의문의 남자가 강도 8인단을 구출하는데...
+            </p>
+          </div>
+
+          <!-- 모달 창 구조 -->
+          <div id="modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-banner">
+                    <img id="modal-banner-img" class="modal-banner-img" src="" alt="Movie Banner">
+                </div>
+                <div class="modal-details">
+                    <h1 id="modal-title">영화 제목</h1>
+                    <p id="modal-description">영화 설명</p>
+                    <div class="modal-btns">
+                        <button class="play-btn">재생</button>
+                        <button class="info-btn">상세 정보</button>
+                    </div>
+                </div>
+                <span class="close">&times;</span>
+            </div>
+          </div>
         </div>
 
         <!-- Netflix Original -->
